@@ -1,14 +1,18 @@
 import React from 'react';
-import NavBar from '../Components/NavBar';
+import NavBarPro from '../Components/NavBarPro';
 import Docs from './Images/Docs.png';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { useState } from 'react';
+import HistoryModal from '../Components/HistoryModal';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const PatientProfile = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const patient = {
     name: "John Doe",
     age: 45,
@@ -65,7 +69,7 @@ const PatientProfile = () => {
     return (
         <div>
             <div>
-                <NavBar />
+                <NavBarPro />
             </div>
             <div className="bg-gradient-to-r from-white to-blue-500 min-h-screen justify-center items-center">
             <section className='flex justify-center p-10 px-20 '>
@@ -110,7 +114,7 @@ const PatientProfile = () => {
                   <p className="text-lg text-gray-700 text-left pt-5"><strong>Symptoms:</strong> {lastHistory.symptoms}</p>
                   <p className="text-lg text-gray-700 text-left pt-5"><strong>Diagnosis:</strong> {lastHistory.diagnosis}</p>
                   <div className="col-span-4 flex justify-end pt-5 pr-10">
-                  <button className="py-3 px-10 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600">Take History</button>
+                  <button onClick={() => setIsModalOpen(true)} className="py-3 px-10 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600">Take History</button>
                   </div>
                 </div>
               </div>
@@ -131,17 +135,14 @@ const PatientProfile = () => {
               ))}
               </select>
               </div>
-              <div className="flex justify-center row-span-7 col-span-4">
+              <div className="flex justify-center row-span-7 col-span-4 pr-5">
               <Line data={historyData}/> 
               </div>
               </div> 
               </div>
             </section>
-            <section className='flex justify-center px-20 pb-10 '>
-            <div className=" flex justify-center gap-x-8 gap-y-4 px-4 min-h-140 w-full ">
             </div>
-            </section>
-            </div>
+             {isModalOpen && <HistoryModal onClose={() => setIsModalOpen(false)} />}
       </div>
     );
 };
