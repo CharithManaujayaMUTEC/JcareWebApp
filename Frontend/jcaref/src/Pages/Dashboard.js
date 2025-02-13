@@ -1,10 +1,16 @@
 import React from 'react';
-import NavBar from '../Components/NavBar';
+import NavBarPro from '../Components/NavBarPro';
 import Docs from './Images/Docs.png';
 import { useState } from 'react';
+import TaskModal from '../Components/TaskModal';
+import HistoryModal from '../Components/HistoryModal';
+
+
 
 const Dashboard = () => {
-    const today = new Date();
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const today = new Date();
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = today.toLocaleDateString(undefined, options);
   const schedule = [
@@ -43,7 +49,7 @@ const Dashboard = () => {
     return (
         <div>
             <div>
-                <NavBar />
+                <NavBarPro />
             </div>
             <div className="bg-gradient-to-r from-white to-purple-500 min-h-screen justify-center items-center">
             <section className='flex justify-center p-10 px-20 '>
@@ -104,7 +110,7 @@ const Dashboard = () => {
                       <div className="space-x-2">
                       <button className="font-sans px-4 py-2 bg-red-500 text-white rounded-lg">Not Done</button>
                       <button className="font-sans px-4 py-2 bg-green-500 text-white rounded-lg">Done</button>
-                      <button className="font-sans px-4 py-2 bg-blue-500 text-white rounded-lg">More Details</button>
+                      <button onClick={() => setIsTaskModalOpen(true)} className="font-sans px-4 py-2 bg-blue-500 text-white rounded-lg">More Details</button>
                       </div>
                     </div>
                     ))
@@ -128,7 +134,7 @@ const Dashboard = () => {
                       <p className={`text-lg font-medium ${patient.type === "Critical" ? "text-red-800" : "text-blue-800"}`}>{patient.type}</p>
                       <div className="space-x-2">
                       <button className="font-sans px-4 py-2 bg-green-500 text-white rounded-lg">Profile</button>
-                      <button className="font-sans px-4 py-2 bg-blue-500 text-white rounded-lg">Take History</button>
+                      <button onClick={() => setIsHistoryModalOpen(true)} className="font-sans px-4 py-2 bg-blue-500 text-white rounded-lg">Take History</button>
                       </div>
                     </div>
                     ))
@@ -172,6 +178,8 @@ const Dashboard = () => {
             </div>
             </section>
             </div>
+            {isTaskModalOpen && <TaskModal onClose={() => setIsTaskModalOpen(false)} />}
+            {isHistoryModalOpen && <HistoryModal onClose={() => setIsHistoryModalOpen(false)} />}
       </div>
     );
 };
