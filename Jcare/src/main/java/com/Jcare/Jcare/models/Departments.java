@@ -14,5 +14,4 @@ public class Departments {
     private String departmentHeadID;
     private String departmentPhone;
     private String departmentEmail;
-
 }
