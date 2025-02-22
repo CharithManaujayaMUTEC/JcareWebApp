@@ -1,33 +1,45 @@
 package com.Jcare.Jcare.Services;
 
+import com.Jcare.Jcare.config.JwtUtil;
+import com.Jcare.Jcare.models.Employess;
 import com.Jcare.Jcare.repositories.EmployessRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.Collection;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
-public class logInDetailsService implements UserDetailsService {
-    @Autowired
-    private EmployessRepo employessRepo;
+@Service
+public class LogInDetailsService {
+    private final EmployessRepo employessRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = (User) employessRepo.findByName(username);
-        if(user == null){
-            throw new UsernameNotFoundException("User not found");
+    public LogInDetailsService(EmployessRepo employessRepo, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+        this.employessRepo = employessRepo;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+    }
+
+    public String registerUser(String name, String password) {
+        if (employessRepo.findByName(name).isPresent()) {
+            throw new RuntimeException("User already exists!");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), (Collection<? extends GrantedAuthority>) Collections.singleton(getAuthorities()));
+
+        Employess user = new Employess();
+        user.setName(name);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole("USER");  // ✅ Set a single role
+
+        employessRepo.save(user);  // ✅ JUST SAVE! Don't assign to a generic variable.
+
+        return jwtUtil.generateToken(name);
     }
 
-    private Collection<? extends GrantedAuthority> getAuthorities(){
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    public String authenticateUser(String name, String password) {
+        Optional<Employess> userOptional = employessRepo.findByName(name);
+        if (userOptional.isEmpty() || !passwordEncoder.matches(password, userOptional.get().getPassword())) {
+            throw new RuntimeException("Invalid credentials!");
+        }
+        return jwtUtil.generateToken(name);
     }
-
 }
