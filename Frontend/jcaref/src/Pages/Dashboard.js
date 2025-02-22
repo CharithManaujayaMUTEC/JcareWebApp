@@ -4,6 +4,8 @@ import Docs from './Images/Docs.png';
 import { useState } from 'react';
 import TaskModal from '../Components/TaskModal';
 import HistoryModal from '../Components/HistoryModal';
+import { useEffect } from 'react';
+
 
 
 
@@ -13,38 +15,95 @@ const Dashboard = () => {
   const today = new Date();
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = today.toLocaleDateString(undefined, options);
-  const schedule = [
-    { time: "09:00 AM", event: "Team Meeting" },
-    { time: "12:00 PM", event: "Lunch Break" },
-    { time: "03:00 PM", event: "Project Update" }
-  ];
-  const notices = [
-    { type: "Urgent", message: "Team Meeting" },
-    { type: "Urgent", message: "Lunch Break" },
-    { type: "Urgent", message: "Project Update" }
-  ];
-  const sampleTasks = [
-    { name: "Complete project report" , description: "Complete the project report and submit it to the manager.", type: "Urgent" },
-    { name: "Attend team meeting" , description: "Attend the team meeting to discuss the project progress.", type: "Urgent" },
-    { name: "Review client feedback" , description: "Review the client feedback and make necessary changes to the project.", type: "Normal" }
-  ];
-  const patients = [
-    { name: "Name1" , type: "Critical" },
-    { name: "Name2" , type: "Critical" },
-    { name: "Name3" , type: "Normal" }
-  ];
-  const [newTask, setNewTask] = useState({ name: "", description: "", type: "Normal", assignedTo: "Myself" });
+   // Employee ID (retrieve from local storage or context)
+   const employeeId = localStorage.getItem("employeeId") || "EMP001"; 
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewTask({ ...newTask, [name]: value });
-  };
+   // State for fetched data
+   const [schedule, setSchedule] = useState([]);
+   const [notices, setNotices] = useState([]);
+   const [tasks, setTasks] = useState([]);
+   const [patients, setPatients] = useState([]);
+ 
+   // Fetch data from API
+   useEffect(() => {
+     const fetchData = async () => {
+       try {
+         const [scheduleRes, noticesRes, tasksRes, patientsRes] = await Promise.all([
+           fetch(`http://localhost:8081/dashboard/getSchedule?employeeId=${employeeId}`),
+           fetch(`http://localhost:8081/dashboard/getNotices?employeeId=${employeeId}`),
+           fetch(`http://localhost:8081/dashboard/getTasks?employeeId=${employeeId}`),
+           fetch(`http://localhost:8081/dashboard/todaysPatients?employeeId=${employeeId}`),
+         ]);
+ 
+         if (!scheduleRes.ok || !noticesRes.ok || !tasksRes.ok || !patientsRes.ok) {
+           throw new Error("Failed to fetch data");
+         }
+ 
+         setSchedule(await scheduleRes.json());
+         setNotices(await noticesRes.json());
+         setTasks(await tasksRes.json());
+         setPatients(await patientsRes.json());
+       } catch (error) {
+         console.error("Error fetching data:", error);
+       }
+     };
+ 
+     fetchData();
+   }, [employeeId]);
 
-  const handleSubmit = (e) => {
+    const [newTask, setNewTask] = useState({
+        taskName: "",
+        taskDescription: "",
+        taskPriority: "Normal",
+        taskAssignedToID: "Myself",
+        taskDate: "",
+        taskTime: "",
+        taskAssignedByID: employeeId,
+        taskPatientID: ""
+    });
+
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("New Task Added:", newTask);
-    setNewTask({ name: "", description: "", type: "Normal", assignedTo: "Myself" });
-  };
+    if (!employeeId) {
+        alert("Employee ID is missing.");
+        return;
+    }
+
+    const newTaskData = { ...newTask, employeeId };
+
+    try {
+        const response = await fetch("http://localhost:8081/dashboard/addTask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newTaskData),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to add task");
+        }
+
+        alert("Task added successfully!");
+        setNewTask({ taskName: "",
+        taskDescription: "",
+        taskPriority: "Normal",
+        taskAssignedToID: "Myself",
+        taskDate: "",
+        taskTime: "",
+        taskAssignedByID: employeeId,
+        taskPatientID: "" });
+
+    } catch (error) {
+        console.error("Error adding task:", error);
+        alert("Error adding task!");
+    }
+};
+
+ 
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setNewTask({ ...newTask, [name]: value }); // Fixed: Now updating newTask instead of tasks
+};
+
 
     return (
         <div>
@@ -73,7 +132,7 @@ const Dashboard = () => {
                   <div className="mt-4 overflow-y-auto max-h-32">
                     {schedule.length > 0 ? (
                     <div className="p-4 bg-gray-100 rounded-lg">
-                      <p className="font-sans text-lg font-medium text-gray-800">{schedule[0].time} - {schedule[0].event}</p>
+                      <p className="font-sans text-lg font-medium text-gray-800">{schedule[0].tasktime} - {schedule[0].taskname}</p>
                       <p className="font-sans font-light text-gray-800">Description</p>
                     </div>
                     ) : (
@@ -102,11 +161,11 @@ const Dashboard = () => {
                   <h2 className="font-sans text-4xl font-semibold text-white text-left">Task List</h2>
                   <h5 className="font-sans text-l font-medium  text-left">Here is your today's Tasks</h5>
                   <div className="mt-4 overflow-y-auto max-h-140 ">
-                    {sampleTasks.length > 0 ? (
-                    sampleTasks.map((task, index) => (
+                    {tasks.length > 0 ? (
+                    tasks.map((tasks, index) => (
                     <div key={index} className="p-4 bg-gray-100 rounded-lg flex justify-between items-center mb-2">
-                      <p className="font-sans text-lg font-medium text-gray-800">{task.name} - </p><p className="font-sans text-lg font-light text-gray-800">{task.description}</p>
-                      <p className={`text-lg font-medium ${task.type === "Urgent" ? "text-red-800" : "text-blue-800"}`}>-{task.type}</p>
+                      <p className="font-sans text-lg font-medium text-gray-800">{tasks.taskname} - </p><p className="font-sans text-lg font-light text-gray-800">{tasks.taskdescription}</p>
+                      <p className={`text-lg font-medium ${tasks.taskpriority === "Urgent" ? "text-red-800" : "text-blue-800"}`}>-{tasks.taskpriority}</p>
                       <div className="space-x-2">
                       <button className="font-sans px-4 py-2 bg-red-500 text-white rounded-lg">Not Done</button>
                       <button className="font-sans px-4 py-2 bg-green-500 text-white rounded-lg">Done</button>
@@ -128,10 +187,10 @@ const Dashboard = () => {
                   <h5 className="font-sans text-l font-medium  text-left">Here is your patients' details</h5>
                   <div className="mt-4 overflow-y-auto max-h-140 ">
                     {patients.length > 0 ? (
-                    patients.map((patient, index) => (
+                    patients.map((patients, index) => (
                     <div key={index} className="p-4 bg-gray-100 rounded-lg flex justify-between items-center mb-2">
-                      <p className="font-sans text-lg font-medium text-gray-800">{patient.name} - </p>
-                      <p className={`text-lg font-medium ${patient.type === "Critical" ? "text-red-800" : "text-blue-800"}`}>{patient.type}</p>
+                      <p className="font-sans text-lg font-medium text-gray-800">{patients.patientname} - </p>
+                      <p className={`text-lg font-medium ${patients.patientstatus === "Critical" ? "text-red-800" : "text-blue-800"}`}>{patients.patientstatus}</p>
                       <div className="space-x-2">
                       <button className="font-sans px-4 py-2 bg-green-500 text-white rounded-lg">Profile</button>
                       <button onClick={() => setIsHistoryModalOpen(true)} className="font-sans px-4 py-2 bg-blue-500 text-white rounded-lg">Take History</button>
@@ -152,25 +211,33 @@ const Dashboard = () => {
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
             <div className="flex justify-between space-x-4">
               <label className="w-1/5 font-sans text-lg font-medium text-left p-5">Task Name:</label>
-              <input type="text" name="name" value={newTask.name} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg" required />
+              <input type="text" name="name" value={newTask.taskName} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg" required />
             </div>
             <div className="flex items-between space-x-4">
               <label className="w-1/5 font-sans text-lg font-medium text-left p-5">Description:</label>
-              <input type="text" name="description" value={newTask.description} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg" required />
+              <input type="text" name="description" value={newTask.taskDescription} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg" required />
             </div>
             <div className="flex items-between space-x-4">
               <label className="w-1/5 font-sans text-lg font-medium text-left p-5">Type:</label>
-              <select name="type" value={newTask.type} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg">
+              <select name="type" value={newTask.taskPriority} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg">
                 <option value="Normal">Normal</option>
                 <option value="Urgent">Urgent</option>
               </select>
             </div>
             <div className="flex items-between space-x-4">
               <label className="w-1/5 font-sans text-lg font-medium text-left p-5">Assign To:</label>
-              <select name="assignedto" value={newTask.assignedTo} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg">
+              <select name="assignedto" value={newTask.taskAssignedToID} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg">
                 <option value="Normal">Myself</option>
                 <option value="Urgent">Employer1</option>
               </select>
+            </div>
+            <div className="flex justify-between space-x-4">
+              <label className="w-1/5 font-sans text-lg font-medium text-left p-5">Set a Date:</label>
+              <input type="date" name="date" value={newTask.taskDate} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg" required />
+            </div>
+            <div className="flex justify-between space-x-4">
+              <label className="w-1/5 font-sans text-lg font-medium text-left p-5">Set a Time:</label>
+              <input type="time" name="time" value={newTask.taskTime} onChange={handleInputChange} className="w-4/5 p-2 border rounded-lg" required />
             </div>
             <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg">Add Task</button>
           </form>
