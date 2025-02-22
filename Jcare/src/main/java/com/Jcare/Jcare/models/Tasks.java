@@ -18,6 +18,42 @@ public class Tasks {
     private String taskAssignedToID;
     private String taskAssignedByID;
     private String taskDepartment;
-    private String taskDeadline;
     private String taskPatientID;
+    private boolean isTaskCompleted;
+
+    public void getTasks() {
+        // TODO implement here
+        return ;
+
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getTime() {
+        return taskTime;
+    }
+
+    public void setTaskStatus(String completed) {
+        // TODO implement here
+        boolean isTaskCompleted1 = isTaskCompleted;
+        isTaskCompleted1 = true;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public void setTaskPriority(String taskPriority) {
+        this.taskPriority = taskPriority;
+    }
+
+    public void setTaskAssignedToID(String taskAssignedToID) {
+        this.taskAssignedToID = taskAssignedToID;
+    }
+
+    public void setTaskDate(String taskDate) {
+        this.taskDate = taskDate;
+    }
 }
