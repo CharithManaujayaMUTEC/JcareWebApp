@@ -24,10 +24,8 @@ public class PatientLog {
     private List<String> patientAllergies;
     private List<String> patientMedications;
     private List<String> patientDiseases;
-    private String patientInsurance;
     private String patientInsuranceId;
-    private String patientInsuranceCompany;
-    private String patientInsurancePolicy;
-    private String patientInsurancePhone;
-    private String patientInsuranceEmail;
+    private String department;
+    private boolean isDischarged;
+    private String patientStatus;
 }
