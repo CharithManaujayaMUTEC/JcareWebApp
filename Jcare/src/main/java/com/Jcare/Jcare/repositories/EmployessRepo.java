@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface EmployessRepo extends MongoRepository<Employess, String> {
     Optional<Employess> findByName(String name);
+
+    Optional<Employess> findByEmployeeId(String employeeId);
 }
