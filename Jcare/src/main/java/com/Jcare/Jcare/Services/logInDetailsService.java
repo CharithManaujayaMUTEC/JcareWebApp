@@ -5,7 +5,6 @@ import com.Jcare.Jcare.models.Employess;
 import com.Jcare.Jcare.repositories.EmployessRepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -20,26 +19,39 @@ public class LogInDetailsService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String registerUser(String name, String password) {
-        if (employessRepo.findByName(name).isPresent()) {
+    public String registerUser(String employeeId, String name, String email, String password, String department) {
+        if (employessRepo.findByEmployeeId(employeeId).isPresent()) {
             throw new RuntimeException("User already exists!");
         }
 
         Employess user = new Employess();
         user.setName(name);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole("USER");  // ✅ Set a single role
+        user.setEmail(email);
+        user.setDepartment(department);
+        user.setEmployeeId(employeeId);
+        user.setPassword(passwordEncoder.encode(password)); // ✅ Encrypt password
+        user.setRole("USER");  // ✅ Store role in DB
 
-        employessRepo.save(user);  // ✅ JUST SAVE! Don't assign to a generic variable.
+        employessRepo.save(user);
 
-        return jwtUtil.generateToken(name);
+        return jwtUtil.generateToken(user.getEmployeeId(), user.getRole()); // ✅ Use dynamic role
     }
 
-    public String authenticateUser(String name, String password) {
-        Optional<Employess> userOptional = employessRepo.findByName(name);
-        if (userOptional.isEmpty() || !passwordEncoder.matches(password, userOptional.get().getPassword())) {
+    public String authenticateUser(String employeeId, String password) {
+        Optional<Employess> userOptional = employessRepo.findByEmployeeId(employeeId);
+
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("User not found!");
+        }
+
+        Employess user = userOptional.get();
+
+        // ✅ Check password securely
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid credentials!");
         }
-        return jwtUtil.generateToken(name);
+
+        // ✅ Generate JWT with only employee ID & role (not password)
+        return jwtUtil.generateToken(user.getEmployeeId(), user.getRole());  // ✅ Correct Token Generation
     }
 }
