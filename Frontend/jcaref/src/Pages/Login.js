@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [name, setName] = useState("");
+    const [employeeid, setEmployeeId] = useState("");
     const [password, setPassword] = useState("");
     const [isOpen, setIsOpen] = useState(true); // Control modal visibility
     const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
-            const response = await fetch("http://localhost:8081/auth/login", {
+            const response = await fetch("http://localhost:8081/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, password }),
+                body: JSON.stringify({ employeeid, password }),
             });
 
             if (!response.ok) throw new Error("Login failed!");
@@ -42,9 +42,9 @@ const Login = () => {
                         <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
                         <input
                             type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Name"
+                            value={employeeid}
+                            onChange={(e) => setEmployeeId(e.target.value)}
+                            placeholder="Employee ID"
                             className="w-full p-2 border rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                         <input
