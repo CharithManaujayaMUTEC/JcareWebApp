@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Data
 @Document(collection = "tasks")
 public class Tasks {
@@ -19,12 +21,50 @@ public class Tasks {
     private String taskAssignedByID;
     private String taskDepartment;
     private String taskPatientID;
-    private boolean isTaskCompleted;
+    private boolean taskCompleted;
 
-    public void getTasks() {
-        // TODO implement here
-        return ;
+    // Default constructor required by Spring Boot and MongoDB
+    public Tasks() {}
 
+    public Tasks(String taskName, String taskDescription, String taskDate, String taskTime, String taskStatus,
+                 String taskPriority, String taskAssignedToID, String taskAssignedByID, String taskDepartment,
+                 String taskPatientID, boolean taskCompleted) {
+        this.taskId = UUID.randomUUID().toString(); // Assign a random unique ID
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.taskDate = taskDate;
+        this.taskTime = taskTime;
+        this.taskStatus = taskStatus;
+        this.taskPriority = taskPriority;
+        this.taskAssignedToID = taskAssignedToID;
+        this.taskAssignedByID = taskAssignedByID;
+        this.taskDepartment = taskDepartment;
+        this.taskPatientID = taskPatientID;
+        this.taskCompleted = taskCompleted;
+    }
+
+    // Fix setTaskStatus
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    // Fix boolean getter
+    public boolean isTaskCompleted() {
+        return taskCompleted;
+    }
+
+    // Fix boolean setter
+    public void setTaskCompleted(boolean taskCompleted) {
+        this.taskCompleted = taskCompleted;
+    }
+
+    // Generate unique ID only if null or empty
+    public void setTaskId(String taskId) {
+        this.taskId = (taskId == null || taskId.isEmpty()) ? UUID.randomUUID().toString() : taskId;
+    }
+
+    public String getTaskTime() {
+        return taskTime;
     }
 
     public String getTaskName() {
@@ -35,25 +75,11 @@ public class Tasks {
         return taskTime;
     }
 
-    public void setTaskStatus(String completed) {
-        // TODO implement here
-        boolean isTaskCompleted1 = isTaskCompleted;
-        isTaskCompleted1 = true;
+    public String getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public void setTaskPriority(String taskPriority) {
-        this.taskPriority = taskPriority;
-    }
-
-    public void setTaskAssignedToID(String taskAssignedToID) {
-        this.taskAssignedToID = taskAssignedToID;
-    }
-
-    public void setTaskDate(String taskDate) {
-        this.taskDate = taskDate;
+    public String getTaskPriority() {
+        return taskPriority;
     }
 }
