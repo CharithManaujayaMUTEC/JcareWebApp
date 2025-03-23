@@ -18,7 +18,7 @@ const Home = () => {
           <div className="container grid grid-cols-2 justify-center items-center px-40">
             <div className='flex flex-col md:justify-center justify-center pt-20 px-20'>
               <div className='text-center md:text-center space-y-4 lg:max-w-[850px] '>
-                <h1 className='text-6xl font-sans font-bold'>Welcome to</h1>
+                <h1 className='text-6xl font-Montserrat font-bold'>Welcome to</h1>
               </div>
               <img src={logo} alt='logo' className="object-scale-down h-15 w-25 max-h-10 mt-4"/>   
               <div className='py-5 items-center'>
@@ -28,8 +28,8 @@ const Home = () => {
                 <HiBookOpen className='scale-150'/><HiArrowCircleRight /><HiDesktopComputer className='scale-150' />
               </div>
               <div className='flex justify-center space-x-4 py-3'>
-                <button className='bg-purple-600 text-white hover:bg-purple-700 font-sans py-1.5 px-6 rounded-2xl'>Sign Up</button>
-                <button className='bg-purple-600 text-white hover:bg-purple-700 font-sans py-1.5 px-6 rounded-2xl'>Sign In</button>
+                <button className='bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-1.5 px-6 rounded-2xl'>Sign Up</button>
+                <button className='bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-1.5 px-6 rounded-2xl'>Sign In</button>
               </div>
             </div>
             <div className=' items-center'>
@@ -50,7 +50,7 @@ const Home = () => {
             </div>
             <div className='flex flex-col md:justify-center justify-left pt-20 pl-5 pr-20'>
               <div className='text-center md:text-center space-y-4 lg:max-w-[850px] '>
-                <h1 className='text-6xl font-sans font-bold'>Visit Your Patient Easily</h1>
+                <h1 className='text-6xl font-Montserrat font-bold'>Visit Your Patient Easily</h1>
               </div>  
               <div className='py-5 items-center'>
                 <p className='font-light leading-tight max-w-400px text-center'>An integrated patient monitoring system designed specifically for hospital staff and visitors to streamline the traditionally time-consuming and error-prone process of manual book recording. This system not only enhances efficiency by digitizing records but also ensures accuracy, accessibility, and security of patient data, thereby creating a seamless and user-friendly experience for all involved.</p>
@@ -59,8 +59,8 @@ const Home = () => {
                 <HiBookOpen className='scale-150'/><HiArrowCircleRight /><HiDesktopComputer className='scale-150' />
               </div>
               <div className='flex justify-center space-x-4 py-3'>
-                <button className='bg-purple-600 text-white hover:bg-purple-700 font-sans py-1.5 px-6 rounded-2xl'>Sign Up</button>
-                <button className='bg-purple-600 text-white hover:bg-purple-700 font-sans py-1.5 px-6 rounded-2xl'>Sign In</button>
+                <button className='bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-1.5 px-6 rounded-2xl'>Sign Up</button>
+                <button className='bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-1.5 px-6 rounded-2xl'>Sign In</button>
               </div>
             </div>
 
@@ -70,7 +70,7 @@ const Home = () => {
           <div className="container grid grid-cols-2 justify-center items-center px-40">
             <div className='flex flex-col md:justify-center justify-center pt-20 px-20'>
               <div className='text-center md:text-center space-y-4 lg:max-w-[850px] '>
-                <h1 className='text-6xl font-sans font-bold'>Win-Win for the Staff and the General Public</h1>
+                <h1 className='text-6xl font-Montserrat font-bold'>Win-Win for the Staff and the General Public</h1>
               </div>
               <div className='py-5 items-center'>
                 <p className='font-light leading-tight max-w-400px text-center'>An integrated patient monitoring system designed specifically for hospital staff and visitors to streamline the traditionally time-consuming and error-prone process of manual book recording. This system not only enhances efficiency by digitizing records but also ensures accuracy, accessibility, and security of patient data, thereby creating a seamless and user-friendly experience for all involved.</p>
@@ -79,8 +79,8 @@ const Home = () => {
                 <HiBookOpen className='scale-150'/><HiArrowCircleRight /><HiDesktopComputer className='scale-150' />
               </div>
               <div className='flex justify-center space-x-4 py-3'>
-                <button className='bg-purple-600 text-white hover:bg-purple-700 font-sans py-1.5 px-6 rounded-2xl'>Sign Up</button>
-                <button className='bg-purple-600 text-white hover:bg-purple-700 font-sans py-1.5 px-6 rounded-2xl'>Sign In</button>
+                <button className='bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-1.5 px-6 rounded-2xl'>Sign Up</button>
+                <button className='bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-1.5 px-6 rounded-2xl'>Sign In</button>
               </div>
             </div>
             <div className=' items-center'>
