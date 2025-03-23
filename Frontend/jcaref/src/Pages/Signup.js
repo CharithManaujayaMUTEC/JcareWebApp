@@ -5,17 +5,17 @@ const Signup = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail]= useState("");
-    const [employeeId, setEmployeeID] = useState("");
+    const [employeeid, setEmployeeID] = useState("");
     const [department, setDepartment] = useState("");
     const [isOpen, setIsOpen] = useState(true); // Control modal visibility
     const navigate = useNavigate();
 
     const handleSignup = async () => {
         try {
-            const response = await fetch("http://localhost:8081/auth/signup", {
+            const response = await fetch("http://localhost:8081/api/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ employeeId, name, email, password, department }),
+                body: JSON.stringify({ employeeid, name, email, password, department }),
             });
 
             if (!response.ok) throw new Error("Signup failed!");
@@ -45,7 +45,7 @@ const Signup = () => {
                         <h2 className="text-2xl font-semibold mb-4 text-center">Signup</h2>
                         <input
                             type="text"
-                            value={employeeId}
+                            value={employeeid}
                             onChange={(e) => setEmployeeID(e.target.value)}
                             placeholder="Employee ID"
                             className="w-full p-2 border rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-green-400"
