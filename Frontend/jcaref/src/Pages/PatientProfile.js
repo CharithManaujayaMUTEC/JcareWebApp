@@ -17,19 +17,19 @@ const PatientProfile = () => {
 
   useEffect(() => {
     // Fetch patient details
-    fetch("http://localhost:8080/api/patient/123456") // Replace with your API endpoint
+    fetch("http://localhost:8080/patientProfile/getPatientDetails/123456") // Replace with your API endpoint
       .then(response => response.json())
       .then(data => setPatient(data))
       .catch(error => console.error("Error fetching patient details:", error));
 
     // Fetch last history
-    fetch("http://localhost:8080/api/history/123456/last") // Replace with your API endpoint
+    fetch("http://localhost:8080/patientProfile/getPatientLastHistory/12345") // Replace with your API endpoint
       .then(response => response.json())
       .then(data => setLastHistory(data))
       .catch(error => console.error("Error fetching last history:", error));
 
     // Fetch vital metrics over time
-    fetch("http://localhost:8080/api/vitals/123456") // Replace with your API endpoint
+    fetch("http://localhost:8080/patientProfile/getParameterVariation/123456") // Replace with your API endpoint
       .then(response => response.json())
       .then(data => setMetrics(data))
       .catch(error => console.error("Error fetching vital metrics:", error));
@@ -78,6 +78,7 @@ const PatientProfile = () => {
               <p className="text-lg text-gray-700 text-left pt-5"><strong>Blood Pressure:</strong> {lastHistory.bloodPressure}</p>
               <p className="text-lg text-gray-700 text-left pt-5"><strong>Temperature:</strong> {lastHistory.temperature}</p>
               <p className="text-lg text-gray-700 text-left pt-5"><strong>Pulse Rate:</strong> {lastHistory.pulseRate}</p>
+              <p className="text-lg text-gray-700 text-left pt-5"><strong>Respiratory Rate:</strong> {lastHistory.respiratoryRate}</p>
               <p className="text-lg text-gray-700 text-left pt-5"><strong>Diagnosis:</strong> {lastHistory.diagnosis}</p>
               <div className="col-span-4 flex justify-end pt-5 pr-10">
                 <button onClick={() => setIsModalOpen(true)} className="py-3 px-10 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600">Take History</button>
