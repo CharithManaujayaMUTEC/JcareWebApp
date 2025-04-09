@@ -17,6 +17,10 @@ public class Notice {
         this.noticeTo = noticeTo;
     }
 
+    public Notice() {
+
+    }
+
     public String getNoticeId() {
         return noticeId;
     }
@@ -65,4 +69,11 @@ public class Notice {
         return noticeTo;
     }
 
+    public void setNoticeTitle(String noticeTitle) {
+        this.notice = noticeTitle;
+    }
+
+    public String getNoticeTitle() {
+        return notice;
+    }
 }
