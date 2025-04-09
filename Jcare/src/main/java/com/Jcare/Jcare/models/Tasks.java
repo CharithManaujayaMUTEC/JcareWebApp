@@ -82,4 +82,24 @@ public class Tasks {
     public String getTaskPriority() {
         return taskPriority;
     }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public void setTaskAssignedToID(String employeeId) {
+        this.taskAssignedToID = employeeId;
+    }
+
+    public void setTaskDate(String taskDate) {
+        this.taskDate = taskDate;
+    }
+
+    public void setTime(String taskTime) {
+        this.taskTime = taskTime;
+    }
+
+    public void setTaskPriority(String taskPriority) {
+        this.taskPriority = taskPriority;
+    }
 }
