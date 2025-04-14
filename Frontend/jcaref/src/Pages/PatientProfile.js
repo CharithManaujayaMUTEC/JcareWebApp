@@ -15,21 +15,23 @@ const PatientProfile = () => {
   const [metrics, setMetrics] = useState({});
   const [selectedMetric, setSelectedMetric] = useState("Blood Pressure");
 
+const patientId = localStorage.getItem("patientid") || "EMP004";
+
   useEffect(() => {
     // Fetch patient details
-    fetch("http://localhost:8080/patientProfile/getPatientDetails/123456") // Replace with your API endpoint
+    fetch(`http://localhost:8081/dashboard/patientProfile/getPatientDetails?patientId=${patientid}`) 
       .then(response => response.json())
       .then(data => setPatient(data))
-      .catch(error => console.error("Error fetching patient details:", error));
+      .catch(error => console.error("Error fetching patient details:", error)); 
 
     // Fetch last history
-    fetch("http://localhost:8080/patientProfile/getPatientLastHistory/12345") // Replace with your API endpoint
+    fetch(`http://localhost:8080/patientProfile/getPatientLastHistory?patientId=${patientid}`) 
       .then(response => response.json())
       .then(data => setLastHistory(data))
       .catch(error => console.error("Error fetching last history:", error));
 
     // Fetch vital metrics over time
-    fetch("http://localhost:8080/patientProfile/getParameterVariation/123456") // Replace with your API endpoint
+    fetch(`http://localhost:8080/patientProfile/getParameterVariation?patientId=${patientid}`) 
       .then(response => response.json())
       .then(data => setMetrics(data))
       .catch(error => console.error("Error fetching vital metrics:", error));
