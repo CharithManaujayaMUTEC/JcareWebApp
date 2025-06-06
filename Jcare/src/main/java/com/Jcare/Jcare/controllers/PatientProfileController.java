@@ -1,39 +1,49 @@
 package com.Jcare.Jcare.controllers;
 
-
 import com.Jcare.Jcare.Services.PatientDetailsService;
 import com.Jcare.Jcare.models.History;
-import com.Jcare.Jcare.models.PatientLog;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/patientProfile")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PatientProfileController {
 
+    private final PatientDetailsService patientDetailsService;
+
+    public PatientProfileController(PatientDetailsService patientDetailsService) {
+        this.patientDetailsService = patientDetailsService;
+    }
 
     @GetMapping("/getPatientDetails")
     public ResponseEntity<List<String>> getPatientDetails(@RequestParam String patientId) {
-        List<String> patientDetails = PatientDetailsService.getPatientProfileDetails(patientId);
+        List<String> patientDetails = patientDetailsService.getPatientProfileDetails(patientId);
         return ResponseEntity.ok(patientDetails);
     }
+
     @GetMapping("/getPatientLastHistory")
-        public ResponseEntity<List<String>> getPatientLastHistory(@RequestParam String patientId){
-            List<String> patLastHistory = PatientDetailsService.getLastHistoryDetails(patientId);
-            return ResponseEntity.ok(patLastHistory);
+    public ResponseEntity<List<String>> getPatientLastHistory(@RequestParam String patientId) {
+        List<String> patLastHistory = patientDetailsService.getLastHistoryDetails(patientId);
+        return ResponseEntity.ok(patLastHistory);
     }
+
     @GetMapping("/getParameterVariation")
-        public ResponseEntity<List<String>>getParameterVariation(@RequestParam String patientId, @RequestParam String startDate, @RequestParam String endDate, @RequestParam String parameter) {
-            List<String> patParameterVariation = PatientDetailsService.getParameterVariationDetails(patientId, startDate, endDate, parameter);
-            return ResponseEntity.ok(patParameterVariation);
+    public ResponseEntity<List<String>> getParameterVariation(
+            @RequestParam String patientId,
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam String parameter) {
+
+        List<String> patParameterVariation = patientDetailsService.getParameterVariationDetails(
+                patientId, startDate, endDate, parameter);
+        return ResponseEntity.ok(patParameterVariation);
     }
+
     @PostMapping("/takeHistory")
     public ResponseEntity<String> takeHistory(@RequestBody History history) {
-        PatientDetailsService.addHistory(history);
+        patientDetailsService.addHistory(history);
         return ResponseEntity.ok("History added successfully");
     }
 }
