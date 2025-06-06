@@ -1,6 +1,5 @@
 package com.Jcare.Jcare.Services;
 
-
 import com.Jcare.Jcare.models.History;
 import com.Jcare.Jcare.models.PatientLog;
 import com.Jcare.Jcare.repositories.HistorysRepo;
@@ -14,17 +13,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class PatientDetailsService {
-    private static PatientLogRepo patientLogRepo;
-    private static HistorysRepo historysRepo;
+    private final PatientLogRepo patientLogRepo;
+    private final HistorysRepo historysRepo;
 
-    public PatientDetailsService(PatientLogRepo patientLogRepo) {
+
+    public PatientDetailsService(PatientLogRepo patientLogRepo, HistorysRepo historysRepo) {
         this.patientLogRepo = patientLogRepo;
+        this.historysRepo = historysRepo;
     }
 
-    public static List<String> getPatientProfileDetails(String patientId) {
+    public List<String> getPatientProfileDetails(String patientId) {
         Optional<PatientLog> patientLogOptional = patientLogRepo.findByPatientId(patientId);
         List<String> patientDetails = new ArrayList<>();
 
@@ -44,24 +44,29 @@ public class PatientDetailsService {
             patientDetails.add(String.join(", ", patientLog.getPatientDiseases()));
             patientDetails.add(patientLog.getPatientInsuranceId());
         }
-
+        System.out.println("Received request for patientId: " + patientId);
         return patientDetails;
     }
 
-    public static List<String> getLastHistoryDetails(String patientId) {
+    public List<String> getLastHistoryDetails(String patientId) {
         Optional<History> historyOptional = historysRepo.findTopByPatientIdOrderByDateTimeDesc(patientId);
         List<String> lastHistoryDetails = new ArrayList<>();
 
         if (historyOptional.isPresent()) {
             History history = historyOptional.get();
+            lastHistoryDetails.add(String.valueOf(history.getDateNTime()));
             lastHistoryDetails.add(String.valueOf(history.getBloodPressure()));
-            lastHistoryDetails.add(String.valueOf(history.getRespiratoryRate()));
             lastHistoryDetails.add(String.valueOf(history.getTemperature()));
+            lastHistoryDetails.add(String.valueOf(history.getPulseRate()));
+            lastHistoryDetails.add(String.valueOf(history.getRespiratoryRate()));
+            lastHistoryDetails.add(String.valueOf(history.getDiagnosis()));
         }
+
         return lastHistoryDetails;
     }
 
-    public static List<String> getParameterVariationDetails(String patientId, String startDate, String endDate, String parameter) {
+
+    public List<String> getParameterVariationDetails(String patientId, String startDate, String endDate, String parameter) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<String> parameterVariationDetails = new ArrayList<>();
 
@@ -104,10 +109,7 @@ public class PatientDetailsService {
         return parameterVariationDetails;
     }
 
-    public static void setHistorysRepo(HistorysRepo historysRepo) {
-        PatientDetailsService.historysRepo = historysRepo;
-    }
-    public static void addHistory(History history) {
+    public void addHistory(History history) {
         historysRepo.save(history);
     }
 }
