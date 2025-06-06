@@ -16,10 +16,8 @@ const Dashboard = () => {
   const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, options);
 
-  // Employee ID (retrieve from local storage or context)
   const employeeid = localStorage.getItem("employeeid") || "EMP004";
 
-  // State for fetched data
   const [schedule, setSchedule] = useState([]);
   const [notices, setNotices] = useState([]);
   const [tasks, setTasks] = useState([]);
