@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "history")
 public class History{
     @Id
+    private String id;
     private String historyId;
     private String patientId;
     private Date dateTime;
