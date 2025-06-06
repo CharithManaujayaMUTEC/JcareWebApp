@@ -11,6 +11,7 @@ import java.util.List;
 @Document(collection = "patientLog")
 public class PatientLog {
     @Id
+    private String id;
     private String patientId;
     private String patientName;
     private String patientEmail;
@@ -31,8 +32,7 @@ public class PatientLog {
 
 
     public PatientLog() {
-        // Default constructor
-    }
+         }
 
     public String getPatientAddress() {
         return patientAddress;
