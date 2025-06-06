@@ -1,6 +1,13 @@
 package com.Jcare.Jcare.models;
 
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Data
+@Document(collection = "notice")
 public class Notice {
+    @Id
     private String noticeId;
     private String notice;
     private String noticeDate;
