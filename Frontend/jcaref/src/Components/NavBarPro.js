@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo/Logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -7,14 +7,32 @@ function NavBarPro() {
   const [showPatientMenu, setShowPatientMenu] = useState(false);
   const [department, setDepartment] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [patients, setPatients] = useState([]); // state for patients
+
   const navigate = useNavigate();
 
-  const patients = [
-    { id: 'P001', name: 'John Doe', department: 'Cardiology' },
-    { id: 'P002', name: 'Jane Smith', department: 'Neurology' },
-    { id: 'P003', name: 'Alice Johnson', department: 'Cardiology' },
-    { id: 'P004', name: 'Bob Brown', department: 'Orthopedics' },
-  ];
+  // Fetch patients from backend
+  const fetchAllPatients = async () => {
+    try {
+      const response = await fetch("http://localhost:8081/patientProfile/getAllPatients");
+      const data = await response.json(); 
+      
+      // Convert strings into objects
+      const allPatients = data.map((item) => {
+        const [id, name, department] = item.split(" - ");
+        return { id, name, department };
+      });
+
+      setPatients(allPatients); // update state
+    } catch (error) {
+      console.error("Error fetching patient data:", error);
+    }
+  };
+
+  // Call API once when component mounts
+  useEffect(() => {
+    fetchAllPatients();
+  }, []);
 
   const filteredPatients = patients.filter((patient) =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -25,10 +43,10 @@ function NavBarPro() {
   const togglePatientMenu = () => setShowPatientMenu(!showPatientMenu);
 
   const handlePatientClick = (patientId) => {
-    navigate(`/patient`, { state: { patientId } });
-    setShowPatientMenu(false); 
+    navigate(`/patient/${patientId}`);
+    setShowPatientMenu(false);
     setSearchTerm('');
-  };
+  };  
 
   return (
     <nav className='bg-purple-100 py-2 px-10'>

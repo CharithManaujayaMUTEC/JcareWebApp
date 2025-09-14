@@ -112,4 +112,15 @@ public class PatientDetailsService {
     public void addHistory(History history) {
         historysRepo.save(history);
     }
+
+    public List<String> getAllPatients() {
+        List<PatientLog> patientLogs = patientLogRepo.findAll();
+        List<String> allPatients = new ArrayList<>();
+
+        for (PatientLog patientLog : patientLogs) {
+            allPatients.add(patientLog.getPatientId() + " - " + patientLog.getPatientName() + " - " + patientLog.getDepartment());
+        }
+
+        return allPatients;
+    }
 }

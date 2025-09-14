@@ -1,6 +1,5 @@
 import React from 'react';
 import NavBarPro from '../Components/NavBarPro';
-import Docs from './Images/Docs.png';
 import { useState } from 'react';
 import TaskModal from '../Components/TaskModal';
 import HistoryModal from '../Components/HistoryModal';
@@ -113,7 +112,7 @@ const Dashboard = () => {
               <div className=" flex justify-between  gap-x-8 gap-y-4 min-h-40">
                 <div className="flex items-center basis-2/4 px-10 bg-white shadow-lg rounded-2xl min-h-40 ">
                   <img
-                  src={Docs}
+                  src="/Images/Docs.png"
                   className="w-20 h-20 rounded-full border-4 border-blue-500"
                   />
                   <div className=" ml-4 p-6 text-start">

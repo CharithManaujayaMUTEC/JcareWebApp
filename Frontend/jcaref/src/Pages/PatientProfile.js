@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import NavBarPro from '../Components/NavBarPro';
-import Docs from './Images/Docs.png';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import 'chartjs-adapter-date-fns';
@@ -124,7 +123,7 @@ const PatientProfile = () => {
         <section className="flex justify-center p-10 px-20">
           <div className="flex justify-between w-full gap-x-8 gap-y-4 min-h-40">
             <div className="grid grid-flow-row-dense grid-cols-4 grid-rows-4 w-full pl-20 py-10 bg-white shadow-lg rounded-2xl min-h-40">
-              <img src={Docs} className="w-20 h-20 rounded-full border-4 border-blue-500" alt="Profile" />
+              <img src="/Images/Docs.png" className="w-20 h-20 rounded-full border-4 border-blue-500" alt="Profile" />
               <h2 className="text-4xl col-span-3 font-semibold text-gray-800 text-left mb-4">
                 General Details - {patient.name} - Patient No {patientid}
               </h2>

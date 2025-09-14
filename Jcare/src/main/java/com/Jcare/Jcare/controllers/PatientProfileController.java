@@ -46,4 +46,10 @@ public class PatientProfileController {
         patientDetailsService.addHistory(history);
         return ResponseEntity.ok("History added successfully");
     }
+
+    @GetMapping("/getAllPatients")
+    public ResponseEntity<List<String>> getAllPatients() {
+        List<String> allPatients = patientDetailsService.getAllPatients();
+        return ResponseEntity.ok(allPatients);
+    }
 }
