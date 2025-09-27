@@ -62,12 +62,26 @@ public class Employess {
         }
     }
 
-
     public String getEmployeeId() {
         return employeeId;
     }
 
     public String getRole() {
         return role;
+    }
+
+    public Object getDepartment() {
+        return department;
+    }
+
+    public Object getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setActive(boolean active) {
     }
 }

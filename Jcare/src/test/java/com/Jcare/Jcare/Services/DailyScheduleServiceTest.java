@@ -2,6 +2,7 @@ package com.Jcare.Jcare.Services;
 
 import com.Jcare.Jcare.models.Notice;
 import com.Jcare.Jcare.models.Tasks;
+import com.Jcare.Jcare.repositories.EmployessRepo;
 import com.Jcare.Jcare.repositories.NoticeRepo;
 import com.Jcare.Jcare.repositories.TasksRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,13 +18,15 @@ class DailyScheduleServiceTest {
 
     private TasksRepo tasksRepo;
     private NoticeRepo noticeRepo;
+    private EmployessRepo employessRepo;
     private DailyScheduleService dailyScheduleService;
 
     @BeforeEach
     void setUp() {
         tasksRepo = mock(TasksRepo.class);
         noticeRepo = mock(NoticeRepo.class);
-        dailyScheduleService = new DailyScheduleService(tasksRepo, noticeRepo);
+        employessRepo = mock(EmployessRepo.class);
+        dailyScheduleService = new DailyScheduleService(tasksRepo, noticeRepo,employessRepo);
     }
 
     @Test

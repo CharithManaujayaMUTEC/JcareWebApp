@@ -1,8 +1,10 @@
 package com.Jcare.Jcare.Services;
 
+import com.Jcare.Jcare.models.Employess;
 import com.Jcare.Jcare.models.Notice;
 import com.Jcare.Jcare.repositories.NoticeRepo;
 import com.Jcare.Jcare.repositories.TasksRepo;
+import com.Jcare.Jcare.repositories.EmployessRepo;
 import com.Jcare.Jcare.models.Tasks;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,12 @@ import java.util.TreeMap;
 public class DailyScheduleService {
     private final TasksRepo tasksRepo;
     private final NoticeRepo noticeRepo;
+    private final EmployessRepo employeesRepo;
 
-    public DailyScheduleService(TasksRepo tasksRepo, NoticeRepo noticeRepo) {
+    public DailyScheduleService(TasksRepo tasksRepo, NoticeRepo noticeRepo, EmployessRepo employeesRepo) {
         this.tasksRepo = tasksRepo;
         this.noticeRepo = noticeRepo;
+        this.employeesRepo = employeesRepo;
     }
 
     public List<Tasks> findTodaysTasks(String taskAssignedToID) {
@@ -68,5 +72,48 @@ public class DailyScheduleService {
             task.get().setTaskStatus("done");
             tasksRepo.save(task.get());
         }
+    }
+
+    public void markTaskAsCompleted(String taskId) {
+        Optional<Tasks> task = tasksRepo.findById(taskId);
+        if (task.isPresent()) {
+            task.get().setTaskStatus("completed");
+            tasksRepo.save(task.get());
+        }
+    }
+
+    public void markTaskAsPending(String taskId) {
+        Optional<Tasks> task = tasksRepo.findById(taskId);
+        if (task.isPresent()) {
+            task.get().setTaskStatus("pending");
+            tasksRepo.save(task.get());
+        }
+    }
+
+    public void markTaskAsNotDone(String taskId) {
+        Optional<Tasks> task = tasksRepo.findById(taskId);
+        if (task.isPresent()) {
+            task.get().setTaskStatus("not done");
+            tasksRepo.save(task.get());
+        }
+    }
+
+    public void addNotice(Notice notice) {
+        noticeRepo.save(notice);
+    }
+
+    public List<TreeMap<String, String>> getAllEmployees() {
+        List<Employess> employees = employeesRepo.findAll();
+
+        List<TreeMap<String, String>> result = new ArrayList<>();
+        for (Employess emp : employees) {
+            TreeMap<String, String> map = new TreeMap<>();
+            map.put("id", emp.getId());
+            map.put("name", String.valueOf(emp.getName()));
+            map.put("department", String.valueOf(emp.getDepartment()));
+            // Add other fields as needed
+            result.add(map);
+        }
+        return result;
     }
 }

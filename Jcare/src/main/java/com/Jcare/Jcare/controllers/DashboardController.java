@@ -54,9 +54,40 @@ public class DashboardController {
         return ResponseEntity.ok(notices);
     }
 
+    @PostMapping("/addNotice")
+    public ResponseEntity<String> addNotice(@RequestBody Notice notice) {
+        dailyScheduleService.addNotice(notice);
+        return ResponseEntity.ok("Notice added successfully");
+    }
+
     @PostMapping("/taskDone")
     public ResponseEntity<String> taskDone(@RequestParam String taskId) {
         dailyScheduleService.markTaskAsDone(taskId);
         return ResponseEntity.ok("Task marked as done");
     }
+
+    @PostMapping("/completeTask")
+    public ResponseEntity<String> completeTask(@RequestParam String taskId) {
+        dailyScheduleService.completeTask(taskId);
+        return ResponseEntity.ok("Task marked as completed");
+    }
+
+    @PostMapping("/taskNotDone")
+    public ResponseEntity<String> taskNotDone(@RequestParam String taskId) {
+        dailyScheduleService.markTaskAsNotDone(taskId);
+        return ResponseEntity.ok("Task marked as not done");
+    }
+
+    @PostMapping("/taskPending")
+    public ResponseEntity<String> taskPending(@RequestParam String taskId) {
+        dailyScheduleService.markTaskAsPending(taskId);
+        return ResponseEntity.ok("Task marked as pending");
+    }
+
+    @GetMapping("/getAllEmployees")
+    public ResponseEntity<List<TreeMap<String, String>>> getAllEmployees() {
+        List<TreeMap<String, String>> employees = dailyScheduleService.getAllEmployees();
+        return ResponseEntity.ok(employees);
+    }
+
 }

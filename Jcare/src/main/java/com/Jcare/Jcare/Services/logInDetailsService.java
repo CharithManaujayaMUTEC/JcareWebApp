@@ -29,12 +29,12 @@ public class LogInDetailsService {
         user.setEmail(email);
         user.setDepartment(department);
         user.setEmployeeId(employeeId);
-        user.setPassword(passwordEncoder.encode(password)); // ✅ Encrypt password
-        user.setRole("USER");  // ✅ Store role in DB
+        user.setPassword(passwordEncoder.encode(password)); // Encrypt password
+        user.setRole("USER");  // Store role in DB
 
         employessRepo.save(user);
 
-        return jwtUtil.generateToken(user.getEmployeeId(), user.getRole()); // ✅ Use dynamic role
+        return jwtUtil.generateToken(user.getEmployeeId(), user.getRole()); // Use dynamic role
     }
 
     public String authenticateUser(String employeeId, String password) {
@@ -46,12 +46,17 @@ public class LogInDetailsService {
 
         Employess user = userOptional.get();
 
-        // ✅ Check password securely
+        // Check password securely
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid credentials!");
         }
 
-        // ✅ Generate JWT with only employee ID & role (not password)
-        return jwtUtil.generateToken(user.getEmployeeId(), user.getRole());  // ✅ Correct Token Generation
+        // Generate JWT with only employee ID & role (not password)
+        return jwtUtil.generateToken(user.getEmployeeId(), user.getRole());  // Correct Token Generation
+    }
+
+    public Employess getUserByEmployeeId(String employeeId) {
+        return employessRepo.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
