@@ -6,6 +6,10 @@ import Patient from './Pages/PatientProfile';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
+import VisitorSchedule from './Pages/VisitorSchedule';
+import UploadReport from './Pages/UploadReport';
+import GoodsRequest from './Pages/GoodsRequest';
+import AdminDashboard from './Pages/AdminDashboard';
 
 function App() {
   return (
@@ -19,6 +23,10 @@ function App() {
           <Route path="*" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/Signup" element={<Signup />} />
+          <Route path="/schedula-a-visit" element={<VisitorSchedule />} />
+          <Route path="/upload-report" element={<UploadReport />} />
+          <Route path="/GoodsRequest" element={<GoodsRequest />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

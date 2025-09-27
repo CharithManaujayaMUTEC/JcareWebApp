@@ -65,7 +65,6 @@ function NavBarPro() {
         {/* Desktop Menu */}
         <ul className='hidden md:flex space-x-10 items-center mt-4 md:mt-0'>
           <li><Link to='/' className='text-black font-bold font-Montserrat'>Home</Link></li>
-          <li><Link to='/tasks' className='text-black font-bold font-Montserrat'>Tasks</Link></li>
           
           {/* Patients Dropdown */}
           <li className='relative'>
@@ -112,7 +111,8 @@ function NavBarPro() {
             )}
           </li>
 
-          <li><Link to='/record' className='text-black font-bold font-Montserrat'>Record</Link></li>
+          <li><Link to='/upload-report' className='text-black font-bold font-Montserrat'>Record</Link></li>
+          <li><Link to='/GoodsRequest' className='text-black font-bold font-Montserrat'>Inventory</Link></li>
         </ul>
       </div>
 
@@ -120,9 +120,8 @@ function NavBarPro() {
       {isMenuOpen && (
         <ul className='md:hidden space-y-3 mt-2'>
           <li><Link to='/' className='text-black font-bold font-Montserrat'>Home</Link></li>
-          <li><Link to='/tasks' className='text-black font-bold font-Montserrat'>Tasks</Link></li>
           <li><Link to='/patients' className='text-black font-bold font-Montserrat'>Patients</Link></li>
-          <li><Link to='/record' className='text-black font-bold font-Montserrat'>Record</Link></li>
+          <li><Link to='/upload-report' className='text-black font-bold font-Montserrat'>Record</Link></li>
         </ul>
       )}
     </nav>

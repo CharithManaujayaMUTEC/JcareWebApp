@@ -1,70 +1,109 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // adjust path if needed
 
 const Login = () => {
-    const [employeeid, setEmployeeId] = useState("");
-    const [password, setPassword] = useState("");
-    const [isOpen, setIsOpen] = useState(true); // Control modal visibility
-    const navigate = useNavigate();
+  const [employeeid, setEmployeeId] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        try {
-            const response = await fetch("http://localhost:8081/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ employeeid, password }),
-            });
+  const handleLogin = async () => {
+    setErrorMessage("");
+    try {
+      const response = await fetch("http://localhost:8081/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ employeeid, password }),
+      });
 
-            if (!response.ok) throw new Error("Login failed!");
+      if (!response.ok) {
+        const data = await response.json();
+        setErrorMessage(data.error || "Login failed!");
+        return;
+      }
 
-            const data = await response.json();
-            localStorage.setItem("token", data.token);
-            alert("Login successful!");
-            navigate("/dashboard");
-            setIsOpen(false); // Close modal on success
-        } catch (error) {
-            alert(error.message);
-        }
-    };
+      const data = await response.json();
 
-    return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
+      // Save token & user info
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
+      localStorage.setItem("name", data.name);
+      localStorage.setItem("department", data.department);
+      localStorage.setItem("employeeid", data.employeeId || data.employeeid || "");
 
-            {isOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 transform transition-all scale-100">
-                        <button 
-                            onClick={() => setIsOpen(false)}
-                            className="absolute top-2 right-3 text-gray-500 hover:text-gray-800"
-                        >
-                            ✖
-                        </button>
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
-                        <input
-                            type="text"
-                            value={employeeid}
-                            onChange={(e) => setEmployeeId(e.target.value)}
-                            placeholder="Employee ID"
-                            className="w-full p-2 border rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Password"
-                            className="w-full p-2 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        <button
-                            onClick={handleLogin}
-                            className="w-full bg-blue-500 text-white p-2 rounded-md shadow-md hover:bg-blue-600 transition"
-                        >
-                            Login
-                        </button>
-                    </div>
-                </div>
-            )}
+      // Redirect based on role
+      if (data.role.toLowerCase() === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setErrorMessage("Network error. Please try again.");
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 via-purple-400 to-purple-300 p-4">
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl flex flex-col md:flex-row overflow-hidden animate-fadeIn">
+        
+        {/* Left Side: Illustration / Logo */}
+        <div className="hidden md:flex md:w-1/2 bg-purple-600 items-center justify-center p-10">
+          <img src="/logo/Logo.png" alt="Jcare Logo" className="w-64" />
         </div>
-    );
+
+        {/* Right Side: Form */}
+        <div className="w-full md:w-1/2 p-10 flex flex-col items-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h2>
+          <p className="text-gray-500 mb-6 text-center">Login to your account</p>
+
+          {errorMessage && (
+            <div className="bg-red-100 text-red-700 p-2 mb-3 rounded w-full text-center">{errorMessage}</div>
+          )}
+
+          <input
+            type="text"
+            value={employeeid}
+            onChange={(e) => setEmployeeId(e.target.value)}
+            placeholder="Employee ID"
+            className="w-full p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full p-3 border border-gray-300 rounded-xl mb-6 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+          />
+
+          <button
+            onClick={handleLogin}
+            className="w-full bg-purple-600 text-white py-3 rounded-xl font-semibold hover:bg-purple-700 transition mb-4"
+          >
+            Login
+          </button>
+
+          <div className="flex justify-between w-full mb-6">
+            <Link
+              to="/signup"
+              className="w-1/2 text-center mr-2 py-2 border border-purple-600 text-purple-600 rounded-xl font-semibold hover:bg-purple-50 transition"
+            >
+              Signup
+            </Link>
+            <Link
+              to="/"
+              className="w-1/2 text-center ml-2 py-2 border border-gray-400 text-gray-600 rounded-xl font-semibold hover:bg-gray-100 transition"
+            >
+              Home
+            </Link>
+          </div>
+
+          <div className="text-gray-500 text-sm text-center">
+            &copy; 2025 Jcare. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;

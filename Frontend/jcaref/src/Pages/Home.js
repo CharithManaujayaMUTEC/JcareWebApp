@@ -63,8 +63,7 @@ const Home = () => {
                 <HiUserGroup /><HiArrowCircleRight /><HiDesktopComputer />
               </div>
               <div className="flex justify-center space-x-4">
-                <Link to="/Dashboard" className="bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-2 px-6 rounded-2xl">View Schedule</Link>
-                <Link to="/Patient" className="bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-2 px-6 rounded-2xl">Book a Slot</Link>
+                <Link to="/schedula-a-visit" className="bg-purple-600 text-white hover:bg-purple-700 font-Montserrat py-2 px-6 rounded-2xl">Book a Slot</Link>
               </div>
             </div>
           </div>

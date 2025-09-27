@@ -1,12 +1,24 @@
 import React from 'react';
 
-const TaskModal = ({ onClose }) => {
-  const sampleTasks = [
-    { name: "Complete project report" , description: "Complete the project report and submit it to the manager.", type: "Urgent", dueDate: "12/12/2021", status: "In Progress" },
-    { name: "Attend team meeting" , description: "Attend the team meeting to discuss the project progress.", type: "Urgent", dueDate: "12/12/2021", status: "Pending" },
-    { name: "Review client feedback" , description: "Review the client feedback and make necessary changes to the project.", type: "Normal",  dueDate: "12/12/2021", status: "Completed" },
-  ];
-  if (!sampleTasks) return null;
+const TaskModal = ({ task, onClose, refreshTasks }) => {
+
+  const toggleTaskStatus = async () => {
+    try {
+      const url = task.taskStatus === "done"
+        ? `http://localhost:8081/dashboard/taskNotDone?taskId=${task.taskId}`
+        : `http://localhost:8081/dashboard/taskDone?taskId=${task.taskId}`;
+      const response = await fetch(url, { method: "POST" });
+      if (!response.ok) throw new Error("Failed to update task status");
+
+      refreshTasks(); // Refresh tasks in dashboard
+      onClose(); // Close modal
+    } catch (error) {
+      console.error(error);
+      alert("Error updating task status!");
+    }
+  };
+
+  if (!task) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -15,25 +27,31 @@ const TaskModal = ({ onClose }) => {
 
         <div className="mb-4">
           <label className="block font-medium">Task Title:</label>
-          <p className="border p-2 bg-gray-100">{sampleTasks.name}</p>
+          <p className="border p-2 bg-gray-100">{task.taskName}</p>
         </div>
 
         <div className="mb-4">
           <label className="block font-medium">Description:</label>
-          <p className="border p-2 bg-gray-100">{sampleTasks.description}</p>
+          <p className="border p-2 bg-gray-100">{task.taskDescription}</p>
         </div>
 
         <div className="mb-4">
           <label className="block font-medium">Due Date:</label>
-          <p className="border p-2 bg-gray-100">{sampleTasks.dueDate}</p>
+          <p className="border p-2 bg-gray-100">{task.taskDate} {task.taskTime}</p>
         </div>
 
         <div className="mb-4">
           <label className="block font-medium">Status:</label>
-          <p className="border p-2 bg-gray-100">{sampleTasks.status}</p>
+          <p className="border p-2 bg-gray-100">{task.taskStatus || "Pending"}</p>
         </div>
 
         <div className="flex justify-end space-x-4">
+          <button
+            onClick={toggleTaskStatus}
+            className={`px-4 py-2 rounded text-white ${task.taskStatus === "done" ? "bg-red-500" : "bg-green-500"}`}
+          >
+            {task.taskStatus === "done" ? "Mark as Not Done" : "Mark as Done"}
+          </button>
           <button onClick={onClose} className="px-4 py-2 bg-gray-400 text-white rounded">
             Close
           </button>
@@ -41,6 +59,6 @@ const TaskModal = ({ onClose }) => {
       </div>
     </div>
   );
-}
+};
 
 export default TaskModal;
