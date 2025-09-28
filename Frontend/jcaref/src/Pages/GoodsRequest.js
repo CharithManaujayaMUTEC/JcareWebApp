@@ -8,12 +8,13 @@ const GoodsRequest = () => {
   const [priority, setPriority] = useState("Normal");
   const [remarks, setRemarks] = useState("");
   const [items, setItems] = useState([{ itemName: "", quantity: 1, category: "" }]);
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const [inventory, setInventory] = useState([]); // 🔹 fetched inventory
 
   // Fetch available inventory on mount
   useEffect(() => {
-    fetch("http://localhost:8081/goodsrequests/inventory/all")
+    fetch(`${BASE_URL}/goodsrequests/inventory/all`)
       .then((res) => res.json())
       .then((data) => setInventory(data))
       .catch((err) => console.error("Failed to fetch inventory:", err));
@@ -47,7 +48,7 @@ const GoodsRequest = () => {
     console.log("📌 Request Data:", requestData);
 
     try {
-      const res = await fetch("http://localhost:8081/goodsrequests/requestGoods", {
+      const res = await fetch(`${BASE_URL}/goodsrequests/requestGoods`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestData),

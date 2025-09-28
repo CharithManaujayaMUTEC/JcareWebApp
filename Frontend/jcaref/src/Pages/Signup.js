@@ -9,11 +9,12 @@ const Signup = () => {
   const [department, setDepartment] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const handleSignup = async () => {
     setErrorMessage("");
     try {
-      const response = await fetch("http://localhost:8081/api/auth/signup", {
+      const response = await fetch(`${BASE_URL}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ employeeid, name, email, password, department }),

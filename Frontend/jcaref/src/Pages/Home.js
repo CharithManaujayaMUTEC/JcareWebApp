@@ -11,14 +11,14 @@ const Home = () => {
   return (
     <div className="Home relative min-h-screen overflow-hidden">
       <NavBar />
-
+      
       {/* Main content */}
       <div className="relative z-10 bg-gradient-to-r from-white to-purple-500 flex flex-col">
         {/* Background Pattern */}
-      <BackgroundPattern count={100} />
+        <BackgroundPattern count={500} />
 
         {/* === Hero Section === */}
-        <section className="flex justify-center items-center min-h-auto lg:min-h-screen px-4 md:px-6 py-6 md:py-8 lg:py-8">
+        <section id="hero" className="flex justify-center items-center min-h-auto lg:min-h-screen px-4 md:px-6 py-6 md:py-8 lg:py-8">
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6 lg:px-20">
             {/* Left Column */}
             <div className="flex flex-col justify-center items-center md:items-center text-center space-y-6">
@@ -45,7 +45,7 @@ const Home = () => {
         </section>
 
         {/* === Visit Patient Section === */}
-        <section className="flex justify-center items-center min-h-auto lg:min-h-[70vh] px-4 md:px-6 py-6 md:py-8 lg:py-10">
+        <section id="visit" className="flex justify-center items-center min-h-auto lg:min-h-[70vh] px-4 md:px-6 py-6 md:py-8 lg:py-10">
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 items-center lg:px-20">
             {/* Left Column - Image */}
             <div className="flex justify-center items-center relative w-full h-64 md:h-80 lg:h-[408px]">
@@ -87,16 +87,21 @@ const Home = () => {
             </div>
           </div>
         </section>
-
-        {/* === Client Section === */}
+      </div>
+      {/* === Client Section === */}
+      <div id="clients">
         <ClientSection />
+        </div>
 
         {/* === Customer Comments Section === */}
+        <div id="comments">
         <CustomerComments />
+        </div>
 
         {/* === Footer Section === */}
-        <FooterSection />
-      </div>
+        <div id="footer">
+  <FooterSection />
+</div>
     </div>
   );
 };

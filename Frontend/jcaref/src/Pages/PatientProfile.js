@@ -17,6 +17,7 @@ const PatientProfile = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [fetchedData, setFetchedData] = useState(null); 
   const [reports, setReports] = useState([]); 
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const patientid = localStorage.getItem("patientid") || "PAT1001";
 
@@ -24,9 +25,9 @@ const PatientProfile = () => {
     const fetchData = async () => {
       try {
         const urls = [
-          `http://localhost:8081/patientProfile/getPatientDetails?patientId=${patientid}`,
-          `http://localhost:8081/patientProfile/getPatientLastHistory?patientId=${patientid}`,
-          //`http://localhost:8081/patientProfile/getReports?patientId=${patientid}`
+          `${BASE_URL}/patientProfile/getPatientDetails?patientId=${patientid}`,
+          `${BASE_URL}/patientProfile/getPatientLastHistory?patientId=${patientid}`,
+          //`${BASE_URL}/patientProfile/getReports?patientId=${patientid}`
         ];
 
         const responses = await Promise.all(urls.map((url) => fetch(url)));
@@ -83,7 +84,7 @@ const PatientProfile = () => {
           }
         ]);
 
-      const reportsRes = await fetch(`http://localhost:8081/patientreports/patient/${patientid}`);
+      const reportsRes = await fetch(`${BASE_URL}/patientreports/patient/${patientid}`);
       if (!reportsRes.ok) throw new Error("Failed to fetch reports");
       const reportsData = await reportsRes.json();
       setReports(reportsData);
@@ -107,7 +108,7 @@ const PatientProfile = () => {
       const formattedStartDate = formatDateForUrl(startDate);
       const formattedEndDate = formatDateForUrl(endDate);
 
-      const url = `http://localhost:8081/patientProfile/getParameterVariation?patientId=${patientid}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&parameter=${selectedMetric}`;
+      const url = `${BASE_URL}/patientProfile/getParameterVariation?patientId=${patientid}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&parameter=${selectedMetric}`;
 
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -162,115 +163,128 @@ if (!patient || !lastHistory.length === 0) {
     <div>
       <NavBarPro />
       <div className="bg-gradient-to-r from-white to-blue-500 min-h-screen justify-center items-center">
-      <section className="flex justify-center p-10">
-          <div className="flex justify-between w-full gap-x-8 gap-y-4 min-h-40">
-            <div className="grid grid-flow-row-dense grid-cols-4 grid-rows-4 w-full pl-20 py-10 bg-white shadow-lg rounded-2xl min-h-40">
-              <img src="/Images/Docs.png" className="w-20 h-20 rounded-full border-4 border-blue-500" alt="Profile" />
-              <h2 className="text-4xl col-span-3 font-semibold text-gray-800 text-left mb-4">
-                General Details - {patient.name} - Patient No {patientid}
-              </h2>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Name:</strong> {patient.name}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Email:</strong> {patient.email}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Phone:</strong> {patient.phone}</p>
-              <p className="text-lg text-gray-700 text-left pt-5 pr-5"><strong>Address:</strong> {patient.address}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Date of Birth:</strong> {patient.dob}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Gender:</strong> {patient.gender}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Blood Group:</strong> {patient.bloodGroup}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Height:</strong> {patient.height} cm</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Weight:</strong> {patient.weight} kg</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Allergies:</strong> {patient.allergies}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Medications:</strong> {patient.medications}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Diseases:</strong> {patient.diseases}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Insurance ID:</strong> {patient.insuranceId}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Status:</strong> {patient.status}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Department:</strong> {patient.department}</p>
-            </div>
-          </div>
-        </section>
+      {/* General Details */}
+<section className="flex justify-center p-6 lg:p-10">
+  <div className="w-full max-w-7xl bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-4">
+    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
+      <img
+        src="/Images/Docs.png"
+        className="w-24 h-24 lg:w-28 lg:h-28 rounded-full border-4 border-blue-500 flex-shrink-0"
+        alt="Profile"
+      />
+      <div className="flex-1 min-w-0">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-800 mb-4">
+          General Details - {patient.name} - Patient No {patientid}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-start text-left">
+          <p className="truncate"><strong>Name:</strong> {patient.name}</p>
+          <p className="truncate"><strong>Email:</strong> {patient.email}</p>
+          <p className="truncate"><strong>Phone:</strong> {patient.phone}</p>
+          <p className="truncate"><strong>Address:</strong> {patient.address}</p>
+          <p><strong>Date of Birth:</strong> {patient.dob}</p>
+          <p><strong>Gender:</strong> {patient.gender}</p>
+          <p><strong>Blood Group:</strong> {patient.bloodGroup}</p>
+          <p><strong>Height:</strong> {patient.height} cm</p>
+          <p><strong>Weight:</strong> {patient.weight} kg</p>
+          <p><strong>Allergies:</strong> {patient.allergies}</p>
+          <p><strong>Medications:</strong> {patient.medications}</p>
+          <p><strong>Diseases:</strong> {patient.diseases}</p>
+          <p><strong>Insurance ID:</strong> {patient.insuranceId}</p>
+          <p><strong>Status:</strong> {patient.status}</p>
+          <p><strong>Department:</strong> {patient.department}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <section className="flex justify-center p-10">
-          <div className="flex justify-between w-full gap-x-8 gap-y-4 min-h-40">
-            <div className="grid grid-flow-row-dense grid-cols-4 grid-rows-5 w-full pl-20 py-10 bg-white shadow-lg rounded-2xl min-h-40">
-              <h2 className="text-4xl col-span-3 font-semibold text-gray-800 text-left mb-4">Last History Taken</h2>
-              <p className="text-lg text-gray-700 text-left pb-2 pr-5"><strong>Date & Time:</strong> {lastHistory.dateTime}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Blood Pressure:</strong> {lastHistory.bloodPressure}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Temperature:</strong> {lastHistory.temperature}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Pulse Rate:</strong> {lastHistory.pulseRate}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Respiratory Rate:</strong> {lastHistory.respiratoryRate}</p>
-              <p className="text-lg text-gray-700 text-left pt-5"><strong>Diagnosis:</strong> {lastHistory.diagnosis}</p>
-              <div className="col-span-4 flex justify-end pt-5 pr-10">
-                <button onClick={() => setIsModalOpen(true)} className="py-3 px-10 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600">Take History</button>
-              </div>
-            </div>
-          </div>
-        </section>
+{/* Last History */}
+<section className="flex justify-center p-6 lg:p-10">
+  <div className="w-full max-w-7xl bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-4">
+    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-800 mb-4">Last History Taken</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left justify-center">
+      <p><strong>Date & Time:</strong> {lastHistory.dateTime}</p>
+      <p><strong>Blood Pressure:</strong> {lastHistory.bloodPressure}</p>
+      <p><strong>Temperature:</strong> {lastHistory.temperature}</p>
+      <p><strong>Pulse Rate:</strong> {lastHistory.pulseRate}</p>
+      <p><strong>Respiratory Rate:</strong> {lastHistory.respiratoryRate}</p>
+      <p className="col-span-1 sm:col-span-2 lg:col-span-4"><strong>Diagnosis:</strong> {lastHistory.diagnosis}</p>
+    </div>
+    <div className="flex justify-end mt-4">
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="py-3 px-6 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+      >
+        Take History
+      </button>
+    </div>
+  </div>
+</section>
 
-        <section className="flex justify-center p-10">
-          <div className="flex justify-between w-full gap-x-8 gap-y-4 min-h-40">
-            <div className="grid grid-flow-row-dense grid-cols-4 grid-rows-8 w-full pl-20 py-10 bg-white shadow-lg rounded-2xl min-h-40">
-              <h2 className="text-4xl col-span-4 font-semibold text-gray-800 text-left mb-4">
-                Variation of Vitals Over Time
-              </h2>
+{/* Variation of Vitals */}
+<section className="flex justify-center p-6 lg:p-10">
+  <div className="w-full max-w-7xl bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-4">
+    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-800 mb-4">Variation of Vitals Over Time</h2>
 
-              <div className="flex items-center gap-4 mb-4 col-span-4">
-                <div>
-                  <label className="block font-medium font-Montserrat text-gray-700 mb-1">Start Date</label>
-                  <input
-                    type="date"
-                    value={startDate.toISOString().split('T')[0]}
-                    onChange={(e) => setStartDate(new Date(e.target.value))}
-                    className="px-2 py-2 border rounded-lg shadow-md"
-                    max={endDate.toISOString().split('T')[0]}
-                  />
-                </div>
-                <div>
-                  <label className="block font-medium font-Montserrat text-gray-700 mb-1">End Date</label>
-                  <input
-                    type="date"
-                    value={endDate.toISOString().split('T')[0]}
-                    onChange={(e) => setEndDate(new Date(e.target.value))}
-                    className="px-2 py-2 border rounded-lg shadow-md"
-                    min={startDate.toISOString().split('T')[0]}
-                  />
-                </div>
-                <div>
-                  <label className="block font-medium font-Montserrat text-gray-700 mb-1">Parameter</label>
-                  <select
-                    className="px-2 py-2 border rounded-lg shadow-md"
-                    value={selectedMetric}
-                    onChange={(e) => setSelectedMetric(e.target.value)}
-                  >
-                    <option value="bloodPressure">Blood Pressure</option>
-                    <option value="temperature">Temperature</option>
-                    <option value="pulseRate">Pulse Rate</option>
-                    <option value="respiratoryRate">Respiratory Rate</option>
-                  </select>
-                </div>
-                <div className="ml-auto pr-40">
-                <button
-                  onClick={handleFetchParameterData}
-                  className="py-2 px-6 bg-blue-500 text-white font-bold font-Montserrat rounded-lg hover:bg-blue-600"
-                >
-                  Fetch Data
-                </button>
-                </div>
-              </div>
+    {/* Filters */}
+    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 mb-4 flex-wrap">
+      <div>
+        <label className="block font-medium text-gray-700 mb-1">Start Date</label>
+        <input
+          type="date"
+          value={startDate.toISOString().split('T')[0]}
+          onChange={(e) => setStartDate(new Date(e.target.value))}
+          className="px-2 py-2 border rounded-lg shadow-md"
+          max={endDate.toISOString().split('T')[0]}
+        />
+      </div>
+      <div>
+        <label className="block font-medium text-gray-700 mb-1">End Date</label>
+        <input
+          type="date"
+          value={endDate.toISOString().split('T')[0]}
+          onChange={(e) => setEndDate(new Date(e.target.value))}
+          className="px-2 py-2 border rounded-lg shadow-md"
+          min={startDate.toISOString().split('T')[0]}
+        />
+      </div>
+      <div>
+        <label className="block font-medium text-gray-700 mb-1">Parameter</label>
+        <select
+          className="px-2 py-2 border rounded-lg shadow-md"
+          value={selectedMetric}
+          onChange={(e) => setSelectedMetric(e.target.value)}
+        >
+          <option value="bloodPressure">Blood Pressure</option>
+          <option value="temperature">Temperature</option>
+          <option value="pulseRate">Pulse Rate</option>
+          <option value="respiratoryRate">Respiratory Rate</option>
+        </select>
+      </div>
+      <div className="ml-auto">
+        <button
+          onClick={handleFetchParameterData}
+          className="py-2 px-6 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600"
+        >
+          Fetch Data
+        </button>
+      </div>
+    </div>
 
-              <div className="flex justify-center row-span-6 col-span-4 pr-5">
-                <Line data={historyData} />
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* Reports Section */}
-<section className="flex justify-center p-10">
-  <div className="w-full bg-white shadow-lg rounded-2xl p-10">
-    <h2 className="text-4xl font-semibold text-gray-800 text-left mb-6">
-      Patient Reports
-    </h2>
+    {/* Chart */}
+    <div className="overflow-x-auto">
+      <Line data={historyData} />
+    </div>
+  </div>
+</section>
+
+{/* Reports */}
+<section className="flex justify-center p-6 lg:p-10">
+  <div className="w-full max-w-7xl bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-4">
+    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-800 mb-4">Patient Reports</h2>
 
     {/* Search + Filter */}
-    <div className="flex flex-wrap gap-4 mb-6">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4 flex-wrap">
       <input
         type="text"
         placeholder="Search reports..."
@@ -290,22 +304,7 @@ if (!patient || !lastHistory.length === 0) {
         onChange={(e) => {
           const filter = e.target.value;
           if (filter === "All") {
-            setReports([
-              {
-                reportTitle: "Blood Test Report",
-                reportType: "PDF",
-                remarks: "Normal blood count",
-                uploadedAt: "2025-09-18",
-                fileUrl: "/dummy/BloodTest.pdf"
-              },
-              {
-                reportTitle: "X-Ray Chest",
-                reportType: "Image",
-                remarks: "Mild congestion observed",
-                uploadedAt: "2025-09-19",
-                fileUrl: "/dummy/XrayChest.png"
-              }
-            ]);
+            // Reset or fetch original reports here
           } else {
             setReports(prev => prev.filter(r => r.reportType === filter));
           }
@@ -318,7 +317,7 @@ if (!patient || !lastHistory.length === 0) {
     </div>
 
     {/* Reports Table */}
-    {reports.length > 0 ? (
+    <div className="overflow-x-auto">
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-100 text-left">
@@ -330,27 +329,27 @@ if (!patient || !lastHistory.length === 0) {
           </tr>
         </thead>
         <tbody>
-          {reports.map((report, index) => (
+          {reports.length > 0 ? reports.map((report, index) => (
             <tr key={index} className="border-b hover:bg-gray-50 text-left">
               <td className="p-3">{report.reportTitle}</td>
               <td className="p-3">{report.reportType}</td>
               <td className="p-3">{report.remarks}</td>
               <td className="p-3">{report.uploadedAt}</td>
               <td className="p-3 text-center">
-              <button
-  onClick={() => handleDownload(report)}
-  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
->
-  Download
-</button>
+                <button
+                  onClick={() => handleDownload(report)}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                >
+                  Download
+                </button>
               </td>
             </tr>
-          ))}
+          )) : (
+            <tr><td colSpan="5" className="text-center text-gray-500 p-4">No reports available for this patient.</td></tr>
+          )}
         </tbody>
       </table>
-    ) : (
-      <p className="text-gray-600">No reports available for this patient.</p>
-    )}
+    </div>
   </div>
 </section>
       </div>

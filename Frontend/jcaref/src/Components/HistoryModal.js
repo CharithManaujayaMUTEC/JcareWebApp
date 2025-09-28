@@ -7,6 +7,7 @@ const HistoryModal = ({ onClose }) => {
   const [bloodPressure, setBloodPressure] = useState('');
   const [temperature, setTemperature] = useState('');
   const [otherRemarks, setOtherRemarks] = useState('');
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const addMetricField = () => {
     setMetrics([...metrics, { name: '', value: '' }]);
@@ -29,7 +30,7 @@ const HistoryModal = ({ onClose }) => {
     };
 
     try {
-      const response = await fetch('http://localhost:8081/patientProfile/takeHistory', {
+      const response = await fetch('${BASE_URL}/patientProfile/takeHistory', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

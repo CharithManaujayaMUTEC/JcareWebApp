@@ -1,12 +1,13 @@
 import React from 'react';
 
 const TaskModal = ({ task, onClose, refreshTasks }) => {
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const toggleTaskStatus = async () => {
     try {
       const url = task.taskStatus === "done"
-        ? `http://localhost:8081/dashboard/taskNotDone?taskId=${task.taskId}`
-        : `http://localhost:8081/dashboard/taskDone?taskId=${task.taskId}`;
+        ? `${BASE_URL}/dashboard/taskNotDone?taskId=${task.taskId}`
+        : `${BASE_URL}/dashboard/taskDone?taskId=${task.taskId}`;
       const response = await fetch(url, { method: "POST" });
       if (!response.ok) throw new Error("Failed to update task status");
 

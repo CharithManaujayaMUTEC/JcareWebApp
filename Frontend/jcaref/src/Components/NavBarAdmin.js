@@ -9,11 +9,12 @@ function NavBarAdmin() {
   const [searchTerm, setSearchTerm] = useState('');
   const [patients, setPatients] = useState([]);
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   // Fetch patients
   const fetchAllPatients = async () => {
     try {
-      const response = await fetch('http://localhost:8081/patientProfile/getAllPatients');
+      const response = await fetch('${BASE_URL}/patientProfile/getAllPatients');
       const data = await response.json();
       const allPatients = data.map((item) => {
         const [id, name, dept] = item.split(' - ');

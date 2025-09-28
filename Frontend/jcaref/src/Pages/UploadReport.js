@@ -10,6 +10,7 @@ const UploadReport = () => {
   const [remarks, setRemarks] = useState("");
   const [reportFile, setReportFile] = useState(null);
   const [doctorId, setDoctorId] = useState("");
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const [doctors, setDoctors] = useState([]);
 
@@ -17,7 +18,7 @@ const UploadReport = () => {
     // Fetch doctors from backend
     const fetchDoctors = async () => {
       try {
-        const res = await fetch("http://localhost:8081/dashboard/getAllEmployees");
+        const res = await fetch(`${BASE_URL}/dashboard/getAllEmployees`);
         if (!res.ok) throw new Error("Failed to fetch employees");
         const data = await res.json();
 
@@ -52,7 +53,7 @@ const UploadReport = () => {
     formData.append("file", reportFile);
 
     try {
-      const res = await fetch("http://localhost:8081/patientreports/upload", {
+      const res = await fetch(`${BASE_URL}/patientreports/upload`, {
         method: "POST",
         body: formData,
       });

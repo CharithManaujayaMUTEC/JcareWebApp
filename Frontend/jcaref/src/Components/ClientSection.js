@@ -5,25 +5,25 @@ const clients = [
     name: "City Hospital",
     industry: "Healthcare",
     description: "Seamless patient management and appointment scheduling.",
-    image: "/Images/client1.png",
+    image: "/Images/hospital.jpg",
   },
   {
     name: "Sunrise Clinic",
     industry: "Healthcare",
     description: "Efficient digital records and real-time patient monitoring.",
-    image: "/Images/client2.png",
+    image: "/Images/hospital.jpg",
   },
   {
     name: "Wellness Center",
     industry: "Healthcare",
     description: "Streamlined workflow for doctors and staff alike.",
-    image: "/Images/client3.png",
+    image: "/Images/hospital.jpg",
   },
   {
     name: "Metro Health",
     industry: "Healthcare",
     description: "Enhancing hospital operations with integrated digital solutions.",
-    image: "/Images/client4.png",
+    image: "/Images/hospital.jpg",
   },
 ];
 

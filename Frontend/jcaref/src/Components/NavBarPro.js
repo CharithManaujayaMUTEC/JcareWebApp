@@ -8,13 +8,14 @@ function NavBarPro() {
   const [department, setDepartment] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [patients, setPatients] = useState([]); // state for patients
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const navigate = useNavigate();
 
   // Fetch patients from backend
   const fetchAllPatients = async () => {
     try {
-      const response = await fetch("http://localhost:8081/patientProfile/getAllPatients");
+      const response = await fetch(`${BASE_URL}/patientProfile/getAllPatients`);
       const data = await response.json(); 
       
       // Convert strings into objects

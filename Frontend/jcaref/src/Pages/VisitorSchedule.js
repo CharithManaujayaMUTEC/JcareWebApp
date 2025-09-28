@@ -16,6 +16,7 @@ const VisitorSchedule = () => {
     patient: "",
     purpose: "",
   });
+  const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
   const timeSlots = [
     "09:00 AM - 09:30 AM",
@@ -32,7 +33,7 @@ const VisitorSchedule = () => {
   useEffect(() => {
     if (visitor.patient && selectedDate) {
       fetch(
-        `http://localhost:8081/patientvisit/patient/${visitor.patient}?date=${selectedDate}`
+        `${BASE_URL}/patientvisit/patient/${visitor.patient}?date=${selectedDate}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -71,7 +72,7 @@ const VisitorSchedule = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/patientvisit/add", {
+      const response = await fetch(`${BASE_URL}/patientvisit/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
