@@ -59,7 +59,7 @@ public class AttendanceLeaveService {
 
         // If checkInTime is boolean, just count true values
         long present = records.stream()
-                .filter(Attendance::isCheckInTime) // assuming getter for boolean is "isCheckInTime()"
+                .filter(Attendance::isCheckInTime)
                 .count();
 
         long leave = leaves.stream()

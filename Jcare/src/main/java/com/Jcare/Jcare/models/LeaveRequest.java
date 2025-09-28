@@ -14,7 +14,7 @@ public class LeaveRequest {
     private String fromDate;
     private String toDate;
     private String reason;
-    private String status; // "Pending", "Approved", "Rejected"
+    private String status;
 
     public void setStatus(String approved) {
         this.status = approved;

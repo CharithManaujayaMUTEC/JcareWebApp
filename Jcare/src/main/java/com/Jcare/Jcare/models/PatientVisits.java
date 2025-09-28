@@ -10,17 +10,17 @@ public class PatientVisits {
     @Id
     private String visitId;
 
-    private String patientId;        // patient number from frontend "patient"
-    private String visitorName;      // "name"
-    private String visitorPhone;     // "phone"
-    private String visitorEmail;     // "email"
-    private String visitorNic;       // "nic"
-    private String accompaniments;   // "membs" (number of family/friends)
-    private String familyNics;       // "nicsfam" (their NICs)
+    private String patientId;
+    private String visitorName;
+    private String visitorPhone;
+    private String visitorEmail;
+    private String visitorNic;
+    private String accompaniments;
+    private String familyNics;
 
-    private String visitDate;        // "date"
-    private String visitTime;        // "slot"
-    private String reasonForVisit;   // "purpose"
+    private String visitDate;
+    private String visitTime;
+    private String reasonForVisit;
 
     public Object getPatientId() {
         return patientId;

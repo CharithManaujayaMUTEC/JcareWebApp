@@ -10,17 +10,17 @@ import java.time.LocalDateTime;
 @Document(collection = "goods_requests")
 public class GoodsRequest {
     @Id
-    private String requestId;       // auto-generated
-    private String employeeId;      // who requested
-    private String employeeName;    // convenience field for UI
+    private String requestId;
+    private String employeeId;
+    private String employeeName;
     private String department;
-    private String itemId;          // link to Inventory.itemId
-    private String itemName;        // redundancy for quick display
+    private String itemId;
+    private String itemName;
     private int quantity;
-    private String priority;        // e.g. Normal/Urgent
+    private String priority;
     private String remarks;
 
-    private String status = "Pending"; // Pending, Approved, Rejected, In Progress, Completed
+    private String status = "Pending";
     private LocalDateTime requestedAt = LocalDateTime.now();
 
     public void setRequesterName(String requesterName) {
@@ -46,9 +46,6 @@ public class GoodsRequest {
     }
     public void setRemarks(String remarks) {
         this.remarks = remarks;
-    }
-    public void setPatientIds(String patientIds) {
-        // Not used in this model, but could be stored if needed
     }
 
     public void setStatus(String status) {

@@ -8,19 +8,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "reports")
 public class Reports {
     @Id
-    private String id;                // MongoDB document ID
-    private String patientId;         // Patient linked to the report
-    private String reportTitle;       // Title of the report
-    private String reportType;        // e.g., X-ray, Blood Test
-    private String priority;          // e.g., High, Medium, Low
-    private String remarks;           // Doctor/Technician notes
-    private String doctorId;          // Uploaded by which doctor
-    private String uploadedAt;        // Date (ISO string)
+    private String id;
+    private String patientId;
+    private String reportTitle;
+    private String reportType;
+    private String priority;
+    private String remarks;
+    private String doctorId;
+    private String uploadedAt;
 
     // File storage
-    private String fileName;          // Original file name
-    private String fileType;          // MIME type (e.g., application/pdf)
-    private byte[] fileData;          // Actual file data
+    private String fileName;
+    private String fileType;
+    private byte[] fileData;
 
     public void setPatientId(String patientId) {
         this.patientId = patientId;

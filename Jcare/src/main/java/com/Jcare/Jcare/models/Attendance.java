@@ -13,8 +13,8 @@ public class Attendance {
     private String attendanceId;
     private String employeeId;
     private String date;
-    private String checkInTime;  // must be String
-    private String checkOutTime; // must be String
+    private String checkInTime;
+    private String checkOutTime;
 
     public Map<Object, Object> getCheckInTime() {
         return Map.of("checkInTime", checkInTime);
