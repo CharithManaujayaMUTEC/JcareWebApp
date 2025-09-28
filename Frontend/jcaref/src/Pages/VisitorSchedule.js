@@ -1,6 +1,7 @@
 // src/Pages/VisitorSchedule.jsx
 import React, { useState, useEffect } from "react";
 import NavBar from "../Components/NavBar";
+import FooterSection from "../Components/FooterSection";
 
 const VisitorSchedule = () => {
   const [selectedDate, setSelectedDate] = useState("");
@@ -276,6 +277,7 @@ const VisitorSchedule = () => {
           </div>
         </div>
       </div>
+      <FooterSection />
     </div>
   );
 };

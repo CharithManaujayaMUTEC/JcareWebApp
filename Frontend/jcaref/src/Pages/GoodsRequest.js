@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBarPro from "../Components/NavBarPro";
+import FooterSection from "../Components/FooterSection";
 
 const GoodsRequest = () => {
   const [requesterName, setRequesterName] = useState("");
@@ -216,6 +217,7 @@ const GoodsRequest = () => {
           </div>
         </div>
       </div>
+      <FooterSection />
     </div>
   );
 };

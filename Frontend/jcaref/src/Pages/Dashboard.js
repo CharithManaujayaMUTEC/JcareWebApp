@@ -3,6 +3,7 @@ import NavBarPro from '../Components/NavBarPro';
 import TaskModal from '../Components/TaskModal';
 import HistoryModal from '../Components/HistoryModal';
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import FooterSection from '../Components/FooterSection';
 
 const Dashboard = () => {
   const BASE_URL = process.env.REACT_APP_BACKEND_URL;
@@ -603,6 +604,7 @@ const handleRequestAction = async (requestId, action) => {
         <TaskModal task={selectedTask} onClose={() => setIsTaskModalOpen(false)} />
       )}
       {isHistoryModalOpen && <HistoryModal onClose={() => setIsHistoryModalOpen(false)} />}
+      <FooterSection />
     </div>
   );
   

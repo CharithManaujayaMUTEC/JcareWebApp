@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBarAdmin from "../Components/NavBarAdmin";
+import FooterSection from "../Components/FooterSection";
 
 const AdminDashboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -132,6 +133,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+      <FooterSection />
     </div>
   );
 };

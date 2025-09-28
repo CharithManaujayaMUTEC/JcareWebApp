@@ -1,6 +1,7 @@
 // src/Pages/UploadReport.jsx
 import React, { useState, useEffect } from "react";
 import NavBarPro from "../Components/NavBarPro";
+import FooterSection from "../Components/FooterSection";
 
 const UploadReport = () => {
   const [patientId, setPatientId] = useState("");
@@ -215,6 +216,7 @@ const UploadReport = () => {
           </div>
         </div>
       </div>
+      <FooterSection />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import HistoryModal from '../Components/HistoryModal';
+import FooterSection from '../Components/FooterSection';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -355,6 +356,7 @@ if (!patient || !lastHistory.length === 0) {
       </div>
 
       {isModalOpen && <HistoryModal onClose={() => setIsModalOpen(false)} />}
+      <FooterSection />
     </div>
   );
 };
