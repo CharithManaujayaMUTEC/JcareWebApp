@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/patientvisit")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://jcare-web-app.vercel.app")
 public class PatientVisitController {
     @Autowired
     private PatientVisitsRepo patientVisitsRepo;
