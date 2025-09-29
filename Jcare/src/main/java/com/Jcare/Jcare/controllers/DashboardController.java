@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 @RestController
 @RequestMapping("/dashboard")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://jcare-web-app.vercel.app")
 public class DashboardController {
     private final DailyScheduleService dailyScheduleService;
     private final TodaysPatientsService todaysPatientsService;
