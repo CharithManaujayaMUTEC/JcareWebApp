@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/patientProfile")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://jcare-web-app.vercel.app")
 public class PatientProfileController {
 
     private final PatientDetailsService patientDetailsService;
