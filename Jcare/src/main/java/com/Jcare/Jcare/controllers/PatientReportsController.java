@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/patientreports")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://jcare-web-app.vercel.app")
 public class PatientReportsController {
 
     @Autowired
