@@ -8,7 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000/") // Allow React frontend
+@CrossOrigin(origins = "https://jcare-web-app.vercel.app") // Allow React frontend
 public class loginController{
     private final LogInDetailsService logInDetailsService;
 
