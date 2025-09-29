@@ -30,7 +30,7 @@ const HistoryModal = ({ onClose }) => {
     };
 
     try {
-      const response = await fetch('${BASE_URL}/patientProfile/takeHistory', {
+      const response = await fetch(`${BASE_URL}/patientProfile/takeHistory`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
