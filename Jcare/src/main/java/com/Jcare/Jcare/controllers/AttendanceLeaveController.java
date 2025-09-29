@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/dashboard")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://jcare-web-app.vercel.app")
 public class AttendanceLeaveController {
 
     private final AttendanceLeaveService attendanceLeaveService;
