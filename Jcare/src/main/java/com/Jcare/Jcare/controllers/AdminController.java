@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "http://localhost:3000") // allow React frontend
+@CrossOrigin(origins = "https://jcare-web-app.vercel.app") // allow React frontend
 public class AdminController {
 
     private final AdminService adminService;
